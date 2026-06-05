@@ -18,7 +18,7 @@ h4{
     margin-top:10px;
     display:flex;
     flex-direction:column;
-    gap:60px;
+    gap:30px;
     border: 1px solid #0e324a;
     padding: 100px;
     padding-top:0px;
@@ -42,7 +42,7 @@ h4{
 .winner-div{
     display:flex;
     flex-direction:row;
-    gap:50px;
+    gap:80px;
     padding-top:0px;
 }
 .log {
@@ -69,4 +69,11 @@ button:active{
     gap:20px;
     display:flex;
     flex-direction:row;
+}
+.magic-par{
+    padding: top 0%;
+    color:rgb(182, 230, 10);
+    font-size: 15px;
+    font-weight: 700;
+    padding-left: 32px;
 }

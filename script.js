@@ -1,128 +1,130 @@
-
-const buttons = document.querySelectorAll("button")
+const buttons = document.querySelectorAll("button");
 
 let count = 0;
 let computerMarks = 0;
 let userMarks = 0;
-let winner = 'Non:';
+let winner = "None";
+let finalPercent = 0;
+
 const ROUNDS = 5;
 
+function computerGuess() {
+    const computerChoice = Math.floor(Math.random() * 3) + 1;
 
-const computerGuess = function computerGuess() {
-    computerChoice = Math.floor(Math.random()*3 + 1)
-    if(computerChoice == 1) return "stone";
-    if(computerChoice == 2) return "paper";
-    if(computerChoice == 3) return "scissors";
+    if (computerChoice === 1) return "stone";
+    if (computerChoice === 2) return "paper";
+    return "scissors";
 }
 
-const decision = function decision(computerGuess,userGuess) {
-    if(userGuess == -1) return 'F'
-    if(computerGuess === _userGuess) return "tied";
-    if(computerGuess === 'stone'&& _userGuess == "scissors" ) return 'C';
-    if(computerGuess === 'scissors'&& _userGuess == "paper" ) return 'C';
-    if(computerGuess === 'paper'&& _userGuess == "stone" ) return 'C';
+function decision(computerChoice, userChoice) {
+    if (computerChoice === userChoice) return "T";
 
-    return 'S'
+    if (
+        (computerChoice === "stone" && userChoice === "scissors") ||
+        (computerChoice === "scissors" && userChoice === "paper") ||
+        (computerChoice === "paper" && userChoice === "stone")
+    ) {
+        return "C";
+    }
+
+    return "U";
 }
 
-const mainFunction = function mainFunction(_userGuess) {
-    _computerGuess = computerGuess()
+function mainFunction(userChoice) {
+    const magicPar = document.querySelector(".magic-par");
 
-    const decide = decision(_computerGuess,_userGuess)
+    const computerChoice = computerGuess();
+    const result = decision(computerChoice, userChoice);
 
-    console.log( _userGuess);
-    console.log(_computerGuess);
-    
-    if(decide =='C') computerMarks++;
-    if(decide =='S') userMarks++;
+    if (result === "C") {
+        computerMarks++;
+    } else if (result === "U") {
+        userMarks++;
+    }
 
-    count ++
+    count++;
 
-    updateGui()
-    
+    updateGui();
 
-    if(count >= ROUNDS){
-        if(computerMarks===userMarks){
-            computerMarks = 0
-            userMarks = 0
-            count = 0
+    if (count >= ROUNDS) {
+        let winnerScore = 0;
 
-            winner = ' TIED'
-            return
-
-        }else if(computerMarks>userMarks){
-            winner = ' Comp: '
-            computerMarks = 0
-            userMarks = 0
-            count = 0
-            return
-
-        }else{
-            winner = ' User: '
-            computerMarks = 0
-            userMarks = 0
-            count = 0
-            return
+        if (computerMarks === userMarks) {
+            winner = "Tied";
+        } else if (computerMarks > userMarks) {
+            winner = "Computer";
+            winnerScore = computerMarks;
+        } else {
+            winner = "User";
+            winnerScore = userMarks;
         }
-        
+
+        finalPercent =
+            winner === "Tied"
+                ? 0
+                : ((winnerScore / ROUNDS) * 100).toFixed(0);
+
+        if (magicPar) {
+            magicPar.classList.add("magic-par");
+
+            if (winner === "Tied") {
+                magicPar.textContent = "It's a tie!";
+            } else {
+                magicPar.textContent = `${winner} won the game!`;
+            }
+        }
+
+        updateGui();
+
+        // Reset game after showing result
+        setTimeout(() => {
+            count = 0;
+            computerMarks = 0;
+            userMarks = 0;
+            winner = "None";
+            finalPercent = 0;
+
+            updateGui();
+
+            if (magicPar) {
+                magicPar.textContent = "";
+            }
+        }, 3000);
     }
-   
 }
 
+function updateGui() {
+    const compMarksElement = document.querySelector(".comp-marks span");
+    const userMarksElement = document.querySelector(".user-marks span");
+    const winnerElement    = document.querySelector(".winner-div .winner");
+    const percentElement   = document.querySelector(".winner-div .percent");
+    const counterElement   = document.querySelector(".container .counter h4");
 
-const logger = (winnerName) => {
-    const winnerDiv = document.querySelector(".winner-div");
-    if (!winnerDiv) return;
-    winnerDiv.innerHTML = `<p class="log">Winner is: <span class="winner">${winnerName}</span></p>`;
-};
-
-const updateGui = () => {
-
-    const _compMarks = document.querySelector(".comp-marks span");
-    const _userMarks = document.querySelector(".user-marks span");
-    const _winner = document.querySelector(".winner-div .winner");
-    const percent = document.querySelector(".winner-div .percent");
-    const counter = document.querySelector(".container .counter h4");
-
-    _compMarks.textContent = computerMarks;
-    _userMarks.textContent = userMarks;
-
-    if (_compMarks) _compMarks.textContent = computerMarks;
-    if (_userMarks) _userMarks.textContent = userMarks;
-    if(counter) counter.textContent = count;
-    
-    _winner.textContent = winner;
-
-    if(count == ROUNDS){
-        if(winner == ' User: '){
-            percent.textContent = (userMarks/ROUNDS)*100;
-
-        }else if(winner = ' Comp: '){
-            percent.textContent = (computerMarks/ROUNDS)*100;
-        }else{
-            percent.textContent = 0;
-
-        }
-        
-    
+    if (compMarksElement) {
+        compMarksElement.textContent = computerMarks;
     }
-        
+
+    if (userMarksElement) {
+        userMarksElement.textContent = userMarks;
     }
-   
 
-    console.log(winner);
-    // logger(winner)
+    if (winnerElement) {
+        winnerElement.textContent = winner;
+    }
 
+    if (percentElement) {
+        percentElement.textContent = finalPercent +"%";
+    }
+
+    if (counterElement) {
+        counterElement.textContent = count;
+    }
+}
+
+updateGui();
 
 buttons.forEach((button) => {
-    button.addEventListener("click",()=>{
-        _userGuess = button.id
-        mainFunction(_userGuess)
-        
-    })
+    button.addEventListener("click", () => {
+        mainFunction(button.id);
     });
-
-
-
-
-
+});
