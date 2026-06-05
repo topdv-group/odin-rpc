@@ -1,19 +1,30 @@
 body{
-    background-color: white;
+    background-color: #515c4d;
     display:flex;
     justify-content:center;
     align-items:center;
     flex-direction:column;
     font-weight: 600;
+    color:#e7ebe6;
+    box-sizing: border-box;
+    font-size:18px;
+}
+h4{
+    font-size: 50px;
+    background-color:green;
+    border-radius:50%;
 }
 .container{
-    margin-top:100px;
+    margin-top:10px;
     display:flex;
     flex-direction:column;
-    gap:40px;
-    border: 1px solid black;
-    padding: 70px;
+    gap:60px;
+    border: 1px solid #0e324a;
+    padding: 100px;
+    padding-top:0px;
     border-radius: 15px;
+   
+    
 }
 .container .counter{
     justify-content:center;
@@ -32,8 +43,28 @@ body{
     display:flex;
     flex-direction:row;
     gap:50px;
+    padding-top:0px;
 }
-
+.log {
+    width: 10px;     /* Keeps the paragraph bound to its exact text size */
+    margin: 0;  
+    height:10px;            /* Prevents default browser margin from pushing elements */
+}
+button{
+    padding:10px;
+    border-radius:10px;
+    border:1px solid green;
+    color:#7c7e80;
+    font-size:20px;
+}
+button:hover{
+    cursor:pointer;
+    border:1px solid #eb05ad;
+  
+}
+button:active{
+    color:#38062b;
+}
 .button-div{
     gap:20px;
     display:flex;

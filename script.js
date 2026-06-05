@@ -7,18 +7,19 @@ let userMarks = 0;
 let winner = 'Non:';
 const ROUNDS = 5;
 
+
 const computerGuess = function computerGuess() {
     computerChoice = Math.floor(Math.random()*3 + 1)
     if(computerChoice == 1) return "stone";
     if(computerChoice == 2) return "paper";
-    if(computerChoice == 3) return "scissor";
+    if(computerChoice == 3) return "scissors";
 }
 
 const decision = function decision(computerGuess,userGuess) {
-    if(_userGuess == -1) return 'F'
+    if(userGuess == -1) return 'F'
     if(computerGuess === _userGuess) return "tied";
-    if(computerGuess === 'stone'&& _userGuess == "scissor" ) return 'C';
-    if(computerGuess === 'scissor'&& _userGuess == "paper" ) return 'C';
+    if(computerGuess === 'stone'&& _userGuess == "scissors" ) return 'C';
+    if(computerGuess === 'scissors'&& _userGuess == "paper" ) return 'C';
     if(computerGuess === 'paper'&& _userGuess == "stone" ) return 'C';
 
     return 'S'
@@ -38,6 +39,7 @@ const mainFunction = function mainFunction(_userGuess) {
     count ++
 
     updateGui()
+    
 
     if(count >= ROUNDS){
         if(computerMarks===userMarks){
@@ -46,7 +48,6 @@ const mainFunction = function mainFunction(_userGuess) {
             count = 0
 
             winner = ' TIED'
-            console.log("tied");
             return
 
         }else if(computerMarks>userMarks){
@@ -54,12 +55,10 @@ const mainFunction = function mainFunction(_userGuess) {
             computerMarks = 0
             userMarks = 0
             count = 0
-            console.log("computer: " + computerMarks );
             return
 
         }else{
             winner = ' User: '
-            console.log("user: " + userMarks);
             computerMarks = 0
             userMarks = 0
             count = 0
@@ -69,6 +68,13 @@ const mainFunction = function mainFunction(_userGuess) {
     }
    
 }
+
+
+const logger = (winnerName) => {
+    const winnerDiv = document.querySelector(".winner-div");
+    if (!winnerDiv) return;
+    winnerDiv.innerHTML = `<p class="log">Winner is: <span class="winner">${winnerName}</span></p>`;
+};
 
 const updateGui = () => {
 
@@ -87,21 +93,25 @@ const updateGui = () => {
     
     _winner.textContent = winner;
 
+    if(count == ROUNDS){
+        if(winner == ' User: '){
+            percent.textContent = (userMarks/ROUNDS)*100;
+
+        }else if(winner = ' Comp: '){
+            percent.textContent = (computerMarks/ROUNDS)*100;
+        }else{
+            percent.textContent = 0;
+
+        }
+        
+    
+    }
+        
+    }
+   
+
     console.log(winner);
- 
-}
-
-const logger = (winner) =>{
-    const winnerDiv = document.querySelector(".winner-div");
-    const logPar = document.createElement("p")
-
-    logPar.classList.add("log")
-
-    logPar.textContent = `Winner is: ${winner}`
-
-    winnerDiv.appendChild(logPar)
-
-}
+    // logger(winner)
 
 
 buttons.forEach((button) => {
