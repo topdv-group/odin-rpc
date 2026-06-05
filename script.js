@@ -4,6 +4,7 @@ const buttons = document.querySelectorAll("button")
 let count = 0;
 let computerMarks = 0;
 let userMarks = 0;
+let winner = 'Non:';
 const ROUNDS = 5;
 
 const computerGuess = function computerGuess() {
@@ -27,15 +28,16 @@ const mainFunction = function mainFunction(_userGuess) {
     _computerGuess = computerGuess()
 
     const decide = decision(_computerGuess,_userGuess)
-    console.log( decide);
+
     console.log( _userGuess);
     console.log(_computerGuess);
-    console.log(count);
     
     if(decide =='C') computerMarks++;
     if(decide =='S') userMarks++;
 
     count ++
+
+    updateGui()
 
     if(count >= ROUNDS){
         if(computerMarks===userMarks){
@@ -43,10 +45,12 @@ const mainFunction = function mainFunction(_userGuess) {
             userMarks = 0
             count = 0
 
+            winner = ' TIED'
             console.log("tied");
             return
 
         }else if(computerMarks>userMarks){
+            winner = ' Comp: '
             computerMarks = 0
             userMarks = 0
             count = 0
@@ -54,6 +58,7 @@ const mainFunction = function mainFunction(_userGuess) {
             return
 
         }else{
+            winner = ' User: '
             console.log("user: " + userMarks);
             computerMarks = 0
             userMarks = 0
@@ -65,11 +70,45 @@ const mainFunction = function mainFunction(_userGuess) {
    
 }
 
+const updateGui = () => {
+
+    const _compMarks = document.querySelector(".comp-marks span");
+    const _userMarks = document.querySelector(".user-marks span");
+    const _winner = document.querySelector(".winner-div .winner");
+    const percent = document.querySelector(".winner-div .percent");
+    const counter = document.querySelector(".container .counter h4");
+
+    _compMarks.textContent = computerMarks;
+    _userMarks.textContent = userMarks;
+
+    if (_compMarks) _compMarks.textContent = computerMarks;
+    if (_userMarks) _userMarks.textContent = userMarks;
+    if(counter) counter.textContent = count;
+    
+    _winner.textContent = winner;
+
+    console.log(winner);
+ 
+}
+
+const logger = (winner) =>{
+    const winnerDiv = document.querySelector(".winner-div");
+    const logPar = document.createElement("p")
+
+    logPar.classList.add("log")
+
+    logPar.textContent = `Winner is: ${winner}`
+
+    winnerDiv.appendChild(logPar)
+
+}
+
+
 buttons.forEach((button) => {
     button.addEventListener("click",()=>{
         _userGuess = button.id
         mainFunction(_userGuess)
-        console.log(button.id);
+        
     })
     });
 
