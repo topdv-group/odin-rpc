@@ -1,0 +1,23 @@
+body{
+    background-color: white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    font-weight: 600;
+}
+.container{
+    margin-top:100px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    border: 1px solid black;
+    padding: 80px;
+    border-radius: 15px;
+}
+.marks-container{
+    display:flex;
+    flex-direction:row;
+    gap: 80px;
+    
+}
