@@ -1,4 +1,10 @@
-console.log("scripting started..");
+
+const buttons = document.querySelectorAll("button")
+
+let count = 0;
+let computerMarks = 0;
+let userMarks = 0;
+const ROUNDS = 5;
 
 const computerGuess = function computerGuess() {
     computerChoice = Math.floor(Math.random()*3 + 1)
@@ -7,60 +13,65 @@ const computerGuess = function computerGuess() {
     if(computerChoice == 3) return "scissor";
 }
 
-const userGuess = function userGuess() {
-    const userChoice = prompt("guess! stone, paper or scissor")
-    _userChoice = userChoice.toLowerCase().trim();
-    if(_userChoice === 'stone'||_userChoice === 'paper'||_userChoice === 'scissor') return _userChoice;
-    return -1
-}
-
 const decision = function decision(computerGuess,userGuess) {
-    if(userGuess == -1) return 'F'
-    if(computerGuess === userGuess) return "tied";
-    if(computerGuess === 'stone'&& userGuess == "scissor" ) return 'C';
-    if(computerGuess === 'scissor'&& userGuess == "paper" ) return 'C';
-    if(computerGuess === 'paper'&& userGuess == "stone" ) return 'C';
+    if(_userGuess == -1) return 'F'
+    if(computerGuess === _userGuess) return "tied";
+    if(computerGuess === 'stone'&& _userGuess == "scissor" ) return 'C';
+    if(computerGuess === 'scissor'&& _userGuess == "paper" ) return 'C';
+    if(computerGuess === 'paper'&& _userGuess == "stone" ) return 'C';
 
     return 'S'
 }
 
-let count = 0;
-let computerMarks = 0;
-let userMarks = 0;
-const ROUNDS = 5;
-
-const mainFunction = function mainFunction() {
+const mainFunction = function mainFunction(_userGuess) {
     _computerGuess = computerGuess()
-    _userGuess = userGuess()
 
     const decide = decision(_computerGuess,_userGuess)
     console.log( decide);
+    console.log( _userGuess);
+    console.log(_computerGuess);
+    console.log(count);
     
     if(decide =='C') computerMarks++;
     if(decide =='S') userMarks++;
 
     count ++
 
-    if(count === ROUNDS){
+    if(count >= ROUNDS){
         if(computerMarks===userMarks){
+            computerMarks = 0
+            userMarks = 0
+            count = 0
+
             console.log("tied");
             return
+
         }else if(computerMarks>userMarks){
+            computerMarks = 0
+            userMarks = 0
+            count = 0
             console.log("computer: " + computerMarks );
             return
 
         }else{
             console.log("user: " + userMarks);
+            computerMarks = 0
+            userMarks = 0
+            count = 0
             return
         }
         
     }
-
-     mainFunction()
    
 }
 
-mainFunction()
+buttons.forEach((button) => {
+    button.addEventListener("click",()=>{
+        _userGuess = button.id
+        mainFunction(_userGuess)
+        console.log(button.id);
+    })
+    });
 
 
 
